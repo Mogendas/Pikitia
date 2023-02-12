@@ -17,4 +17,8 @@ struct Photo: Codable, Identifiable {
     let ispublic: Int
     let isfriend: Int
     let isfamily: Int
+    
+    var imageURLString: String {
+        return "https://live.staticflickr.com/\(server)/\(id)_\(secret).jpg"
+    }
 }
