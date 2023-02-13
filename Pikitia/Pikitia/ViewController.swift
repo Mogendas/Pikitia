@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         
         collectionView.collectionViewLayout = viewModel.flowLayout(viewSize: view.bounds.size)
         collectionView.register(UINib(nibName:"ImageCell",bundle: nil), forCellWithReuseIdentifier: "ImageCell")
+        collectionView.delegate = self
         
         viewModel.updateUi = { [weak self] in
             DispatchQueue.main.async {
@@ -87,6 +88,18 @@ class ViewController: UIViewController {
         } completion: { _ in
             self.shadowView.isHidden = true
         }
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let photos = viewModel.photos?.photo else { return }
+        
+        let photo = photos[indexPath.row]
+        
+        let pageViewController = PageViewController(photos: photos, selectedPhoto: photo)
+        
+        
     }
 }
 
