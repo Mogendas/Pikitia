@@ -29,6 +29,8 @@ class ViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         shadowView.addGestureRecognizer(tapGesture)
         
+        navigationController?.isNavigationBarHidden = true
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -41,6 +43,11 @@ class ViewController: UIViewController {
                 self?.applySnapshot()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,7 +106,7 @@ extension ViewController: UICollectionViewDelegate {
         
         let pageViewController = PageViewController(photos: photos, selectedPhoto: photo)
         
-        
+        navigationController?.pushViewController(pageViewController, animated: true)
     }
 }
 

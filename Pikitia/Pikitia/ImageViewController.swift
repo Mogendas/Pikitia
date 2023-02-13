@@ -11,12 +11,12 @@ class ImageViewController: UIViewController {
 
     @IBOutlet private weak var imageView: UIImageView!
     
+    let photo: Photo
+    
     init(photo: Photo) {
-        super.init(nibName: "ImageViewController", bundle: nil)
+        self.photo = photo
         
-        if let url = URL(string: photo.imageURLString) {
-            imageView.load(url: url, placeholder: nil)
-        }
+        super.init(nibName: "ImageViewController", bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -26,10 +26,8 @@ class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    }
-    
-    func configure(photo: Photo) {
-        guard let url = URL(string: photo.imageURLString) else { return }
-        imageView.load(url: url, placeholder: nil)
+        if let url = URL(string: photo.imageURLString) {
+            imageView.load(url: url, placeholder: nil)
+        }
     }
 }
