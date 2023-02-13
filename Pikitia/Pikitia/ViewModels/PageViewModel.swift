@@ -21,20 +21,23 @@ final class PageViewModel {
         
         if currentImageIndex > 0 {
             let firstImage = photos[currentImageIndex - 1]
-            self.orderedViewControllers.append(ImageViewController(photo: firstImage))
+            let firstViewModel = ImageViewModel(photo: firstImage)
+            self.orderedViewControllers.append(ImageViewController(viewModel: firstViewModel))
         }
         
         let secondImage = photos[currentImageIndex]
-        self.orderedViewControllers.append(ImageViewController(photo: secondImage))
+        let secondViewModel = ImageViewModel(photo: secondImage)
+        self.orderedViewControllers.append(ImageViewController(viewModel: secondViewModel))
         
         if currentImageIndex < numberOfPhotos - 1 {
             let thirdImage = photos[currentImageIndex + 1]
-            self.orderedViewControllers.append(ImageViewController(photo: thirdImage))
+            let viewModel = ImageViewModel(photo: thirdImage)
+            self.orderedViewControllers.append(ImageViewController(viewModel: viewModel))
         }
     }
     
     var firstViewController: UIViewController? {
-        guard let firstViewController = orderedViewControllers.first(where: { $0.photo == selectedPhoto}) else { return nil }
+        guard let firstViewController = orderedViewControllers.first(where: { $0.viewModel.photo == selectedPhoto}) else { return nil }
         return firstViewController
     }
     
@@ -51,9 +54,10 @@ final class PageViewModel {
         var previousIndex = currentIndex - 1
         
         if currentIndex == 1,
-           let currentImageIndex = photos.firstIndex(of: imageViewController.photo),
+           let currentImageIndex = photos.firstIndex(of: imageViewController.viewModel.photo),
            currentImageIndex - 2 >= 0 {
-            orderedViewControllers.insert(ImageViewController(photo: photos[currentImageIndex - 2]), at: 0)
+            let viewModel = ImageViewModel(photo: photos[currentImageIndex - 2])
+            orderedViewControllers.insert(ImageViewController(viewModel: viewModel), at: 0)
             previousIndex += 1
         }
         
@@ -67,9 +71,10 @@ final class PageViewModel {
         else { return nil }
         
         if currentIndex == orderedViewControllers.count - 2,
-           let currentImageIndex = photos.firstIndex(of: imageViewController.photo),
+           let currentImageIndex = photos.firstIndex(of: imageViewController.viewModel.photo),
            currentImageIndex + 2 < numberOfPhotos {
-            orderedViewControllers.append(ImageViewController(photo: photos[currentImageIndex + 2]))
+            let viewModel = ImageViewModel(photo: photos[currentImageIndex + 2])
+            orderedViewControllers.append(ImageViewController(viewModel: viewModel))
         }
         
         return orderedViewControllers[currentIndex + 1]
