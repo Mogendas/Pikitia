@@ -104,7 +104,9 @@ extension ViewController: UICollectionViewDelegate {
         
         let photo = photos[indexPath.row]
         
-        let pageViewController = PageViewController(photos: photos, selectedPhoto: photo)
+        let viewModel = PageViewModel(photos: photos, selectedPhoto: photo)
+        
+        let pageViewController = PageViewController(viewModel: viewModel)
         
         navigationController?.pushViewController(pageViewController, animated: true)
     }

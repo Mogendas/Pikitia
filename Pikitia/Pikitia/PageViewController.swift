@@ -8,13 +8,10 @@
 import UIKit
 
 class PageViewController: UIPageViewController {
-    private var photos: [Photo]
-    private var selectedPhoto: Photo
-    private var orderedViewControllers = [ImageViewController]()
+    private var viewModel: PageViewModel
     
-    init(photos: [Photo], selectedPhoto: Photo) {
-        self.photos = photos
-        self.selectedPhoto = selectedPhoto
+    init(viewModel: PageViewModel) {
+        self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     }
     
@@ -26,11 +23,8 @@ class PageViewController: UIPageViewController {
         super.viewDidLoad()
         dataSource = self
         navigationController?.isNavigationBarHidden = false
-        photos.forEach { photo in
-            orderedViewControllers.append(ImageViewController(photo: photo))
-        }
-        
-        guard let firstViewController = orderedViewControllers.first(where: { $0.photo == selectedPhoto}) else { return }
+                
+        guard let firstViewController = viewModel.firstViewController else { return }
         setViewControllers([firstViewController], direction: .forward, animated: true)
     }
 
@@ -38,20 +32,10 @@ class PageViewController: UIPageViewController {
 
 extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let imageViewController = viewController as? ImageViewController,
-              let currentIndex = orderedViewControllers.firstIndex(of: imageViewController),
-              currentIndex > 0
-        else { return nil }
-        
-        return orderedViewControllers[currentIndex - 1]
+        return viewModel.viewControllerBefore(viewController: viewController)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let imageViewController = viewController as? ImageViewController,
-              let currentIndex = orderedViewControllers.firstIndex(of: imageViewController),
-              currentIndex < orderedViewControllers.count - 1
-        else { return nil }
-        
-        return orderedViewControllers[currentIndex + 1]
+        return viewModel.viewControllerAfter(viewController: viewController)
     }
 }
