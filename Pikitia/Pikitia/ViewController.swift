@@ -29,17 +29,25 @@ class ViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         shadowView.addGestureRecognizer(tapGesture)
         
+        navigationController?.isNavigationBarHidden = true
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         collectionView.collectionViewLayout = viewModel.flowLayout(viewSize: view.bounds.size)
         collectionView.register(UINib(nibName:"ImageCell",bundle: nil), forCellWithReuseIdentifier: "ImageCell")
+        collectionView.delegate = self
         
         viewModel.updateUi = { [weak self] in
             DispatchQueue.main.async {
                 self?.applySnapshot()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,6 +95,18 @@ class ViewController: UIViewController {
         } completion: { _ in
             self.shadowView.isHidden = true
         }
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let photos = viewModel.photos?.photo else { return }
+        
+        let photo = photos[indexPath.row]
+        
+        let pageViewController = PageViewController(photos: photos, selectedPhoto: photo)
+        
+        navigationController?.pushViewController(pageViewController, animated: true)
     }
 }
 
