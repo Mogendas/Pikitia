@@ -8,13 +8,12 @@
 import UIKit
 
 class ImageViewController: UIViewController {
+    private(set) var viewModel: ImageViewModel
 
     @IBOutlet private weak var imageView: UIImageView!
     
-    let photo: Photo
-    
-    init(photo: Photo) {
-        self.photo = photo
+    init(viewModel: ImageViewModel) {
+        self.viewModel = viewModel
         
         super.init(nibName: "ImageViewController", bundle: nil)
     }
@@ -26,7 +25,7 @@ class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let url = URL(string: photo.imageURLString) {
+        if let url = URL(string: viewModel.imageURLString) {
             imageView.load(url: url, placeholder: nil)
         }
     }
