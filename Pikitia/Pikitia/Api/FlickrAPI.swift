@@ -25,7 +25,7 @@ final class FlickrAPI {
         
         url.append(queryItems: items)
         
-        print("URL: \(url.absoluteString)")
+//        print("URL: \(url.absoluteString)")
 
         let data = try await sendRequest(url: url)
         

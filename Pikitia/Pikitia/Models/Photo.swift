@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct Photo: Codable, Identifiable {
+struct Photo: Codable, Identifiable, Hashable {
+    func hash(into hasher: inout Hasher) {
+      hasher.combine(id)
+    }
+
+    static func == (lhs: Photo, rhs: Photo) -> Bool {
+      lhs.id == rhs.id
+    }
+    
     let id: String
     let owner: String
     let secret: String
