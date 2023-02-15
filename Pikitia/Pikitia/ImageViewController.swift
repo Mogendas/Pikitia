@@ -15,7 +15,7 @@ class ImageViewController: UIViewController {
     init(viewModel: ImageViewModel) {
         self.viewModel = viewModel
         
-        super.init(nibName: "ImageViewController", bundle: nil)
+        super.init(nibName: String(describing: ImageViewController.self), bundle: nil)
     }
     
     required init?(coder: NSCoder) {
