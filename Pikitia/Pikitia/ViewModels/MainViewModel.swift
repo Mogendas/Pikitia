@@ -7,15 +7,16 @@
 
 import UIKit
 
+enum SearchState {
+    case info(String)
+    case photos
+}
+
 class MainViewModel {
     var photos: Photos?
     
-    var updateUi: (() -> Void)?
-    
-    init() {
-        searchPhotos(searchString: "KnowIT")
-    }
-    
+    var updateUi: ((SearchState) -> Void)?
+        
     func flowLayout(viewSize: CGSize) -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: viewSize.width / 2 - 8, height: 200)
@@ -38,7 +39,12 @@ class MainViewModel {
             } catch {
                 print("Error: \(error)")
             }
-            updateUi?()
+            
+            if self.photos?.photo.isEmpty ?? true {
+                updateUi?(.info("Your seach did not result in any images"))
+            } else {
+                updateUi?(.photos)
+            }
         }
     }
 }
