@@ -8,14 +8,16 @@
 import Foundation
 
 enum APIError: Error {
-    case runtimeError(String)
+    case responseError
+    case urlError
+    case status(Int)
 }
 
 final class FlickrAPI {
     let baseUrl = "https://www.flickr.com/services/rest/"
         
     func searchFor(searchString: String) async throws -> PhotosData {
-        guard var url = URL(string: baseUrl) else { throw APIError.runtimeError("URL error") }
+        guard var url = URL(string: baseUrl) else { throw APIError.urlError }
         
         let items = [URLQueryItem(name: "method", value: "flickr.photos.search"),
                      URLQueryItem(name: "api_key", value: "6bfb8fbd1f722c1bc38a670ee835c620"),
@@ -24,8 +26,6 @@ final class FlickrAPI {
                      URLQueryItem(name: "nojsoncallback", value: "1")]
         
         url.append(queryItems: items)
-        
-//        print("URL: \(url.absoluteString)")
 
         let data = try await sendRequest(url: url)
         
@@ -34,15 +34,17 @@ final class FlickrAPI {
     
     
     private func sendRequest(url: URL) async throws -> Data {
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await URLSession.shared.data(from: url)
         
-//        do {
-//            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary
-//            print("RawData: \(json)")
-//        } catch {
-//            print("Error: \(error)")
-//        }
+        guard let httpURLResponse = response as? HTTPURLResponse else {
+            throw APIError.responseError
+        }
         
-        return data
+        switch httpURLResponse.statusCode {
+        case 200...299:
+            return data
+        default:
+            throw APIError.status(httpURLResponse.statusCode)
+        }
     }
 }
