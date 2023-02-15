@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var shadowView: UIView!
+    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var infoLabel: UILabel!
     
     override func viewDidLoad()  {
         super.viewDidLoad()
@@ -36,11 +38,23 @@ class ViewController: UIViewController {
         
         collectionView.collectionViewLayout = viewModel.flowLayout(viewSize: view.bounds.size)
         collectionView.register(UINib(nibName:"ImageCell",bundle: nil), forCellWithReuseIdentifier: "ImageCell")
+        collectionView.register(UINib(nibName:"InfoCell",bundle: nil), forCellWithReuseIdentifier: "InfoCell")
         collectionView.delegate = self
         
-        viewModel.updateUi = { [weak self] in
-            DispatchQueue.main.async {
-                self?.applySnapshot()
+        viewModel.updateUi = { [weak self] state in
+            switch state {
+            case .info(let infoString):
+                DispatchQueue.main.async {
+                    self?.infoLabel.text = infoString
+                    self?.collectionView.isHidden = true
+                    self?.infoView.isHidden = false
+                }
+            case .photos:
+                DispatchQueue.main.async {
+                    self?.collectionView.isHidden = false
+                    self?.infoView.isHidden = true
+                    self?.applySnapshot()
+                }
             }
         }
     }

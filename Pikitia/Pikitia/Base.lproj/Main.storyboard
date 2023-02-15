@@ -16,7 +16,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="H0s-Pg-LSW">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCC-2W-Rhe">
+                                <rect key="frame" x="0.0" y="128" width="393" height="690"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Try searching for something" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYo-9g-L1c">
+                                        <rect key="frame" x="74.666666666666686" y="333" width="244" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstItem="cYo-9g-L1c" firstAttribute="centerY" secondItem="WCC-2W-Rhe" secondAttribute="centerY" id="6a8-IP-hqZ"/>
+                                    <constraint firstItem="cYo-9g-L1c" firstAttribute="centerX" secondItem="WCC-2W-Rhe" secondAttribute="centerX" id="YME-Id-al7"/>
+                                </constraints>
+                            </view>
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="H0s-Pg-LSW">
                                 <rect key="frame" x="4" y="128" width="385" height="724"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0R0-Ob-plp">
@@ -53,21 +69,27 @@
                         <color key="backgroundColor" systemColor="systemBlueColor"/>
                         <constraints>
                             <constraint firstItem="H0s-Pg-LSW" firstAttribute="top" secondItem="9gI-vl-Trf" secondAttribute="bottom" id="1ea-EJ-CCy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WCC-2W-Rhe" secondAttribute="trailing" id="41p-43-SKY"/>
+                            <constraint firstItem="WCC-2W-Rhe" firstAttribute="top" secondItem="9gI-vl-Trf" secondAttribute="bottom" id="7JQ-0K-49y"/>
                             <constraint firstItem="c1Q-nJ-JlF" firstAttribute="top" secondItem="9gI-vl-Trf" secondAttribute="bottom" id="7pV-a3-02s"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c1Q-nJ-JlF" secondAttribute="trailing" id="FJU-bh-JLn"/>
                             <constraint firstAttribute="bottom" secondItem="c1Q-nJ-JlF" secondAttribute="bottom" id="JV9-e5-AxN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9gI-vl-Trf" secondAttribute="trailing" id="WTb-IE-gw4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="H0s-Pg-LSW" secondAttribute="trailing" constant="4" id="YCt-76-qB8"/>
                             <constraint firstItem="H0s-Pg-LSW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="4" id="ZKU-fu-pUw"/>
+                            <constraint firstItem="WCC-2W-Rhe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aVg-gJ-lnr"/>
                             <constraint firstItem="9gI-vl-Trf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fON-Bf-wtD"/>
                             <constraint firstAttribute="bottom" secondItem="H0s-Pg-LSW" secondAttribute="bottom" id="iPK-Mg-TbM"/>
                             <constraint firstItem="9gI-vl-Trf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="jji-JN-OCB"/>
                             <constraint firstItem="c1Q-nJ-JlF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mLs-OI-Ha9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WCC-2W-Rhe" secondAttribute="bottom" id="wBy-Cv-vaw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="X99-1P-8GQ"/>
                     <connections>
                         <outlet property="collectionView" destination="H0s-Pg-LSW" id="Bng-TM-Cb2"/>
+                        <outlet property="infoLabel" destination="cYo-9g-L1c" id="7wJ-kK-Dcn"/>
+                        <outlet property="infoView" destination="WCC-2W-Rhe" id="5av-pt-EZ3"/>
                         <outlet property="shadowView" destination="c1Q-nJ-JlF" id="DIa-G0-G7j"/>
                         <outlet property="textField" destination="5aO-cS-Mi9" id="upJ-aB-L5B"/>
                     </connections>
