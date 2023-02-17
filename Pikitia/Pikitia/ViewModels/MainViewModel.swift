@@ -12,11 +12,10 @@ enum SearchState {
     case photos
 }
 
-class MainViewModel {
+@MainActor final class MainViewModel {
     var photos: Photos?
-    
     var updateUi: ((SearchState) -> Void)?
-        
+    
     func flowLayout(viewSize: CGSize) -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: viewSize.width / 2 - 8, height: 200)
